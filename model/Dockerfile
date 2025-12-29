@@ -5,6 +5,12 @@ FROM python:3.8.13 as base
 # gunicorn is installed there.
 ENV PYTHONPATH=$PYTHONPATH:/src/
 
+# Install system dependencies for HDF5
+RUN apt-get update && apt-get install -y \
+    libhdf5-dev \
+    pkg-config \
+    && rm -rf /var/lib/apt/lists/*
+
 ADD requirements.txt .
 RUN pip3 install -r requirements.txt
 

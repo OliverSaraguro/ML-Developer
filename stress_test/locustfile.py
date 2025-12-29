@@ -46,10 +46,15 @@ class APIUser(HttpUser):
 
     # Put your stress tests here.
     # See https://docs.locust.io/en/stable/writing-a-locustfile.html for help.
-    # TODO
-    # raise NotImplementedError
+
+    @task(2)
+    def index(self):
+        """Test the index endpoint"""
+        self.client.get("http://0.0.0.0:8000/")
+
     @task(1)
     def predict(self):
+        """Test the predict endpoint"""
         token = login("admin@example.com", "admin")
         files = [("file", ("dog.jpeg", open("dog.jpeg", "rb"), "image/jpeg"))]
         headers = {"Authorization": f"Bearer {token}"}
